@@ -1,15 +1,7 @@
 # Clean Arch Vite Template
 
-English: see this file.
-Español: see `README.es.md`.
-Português: see `README.pt.md`.
-中文: see `README.zh.md`.
-Français: see `README.fr.md`.
-Deutsch: see `README.de.md`.
-日本語: see `README.ja.md`.
-한국어: see `README.ko.md`.
-Русский: see `README.ru.md`.
-العربية: see `README.ar.md`.
+[ English](README.md) | [ Español](README.es.md) | [ Português](README.pt.md) | [ 中文](README.zh.md) | [ Français](README.fr.md) | [ Deutsch](README.de.md) | [ 日本語](README.ja.md) | [ 한국어](README.ko.md) | [ Русский](README.ru.md) | [ العربية](README.ar.md)
+
 `Vite + React + TypeScript` template prepared for future projects with:
 
 - Clean Architecture and DDD as the base structure.

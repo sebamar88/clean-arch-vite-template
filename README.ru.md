@@ -1,9 +1,6 @@
 # Clean Arch Vite Template
 
-English: see `README.md`.
-Español: see `README.es.md`.
-Português: see `README.pt.md`.
-中文: see `README.zh.md`.
+[ English](README.md) | [ Español](README.es.md) | [ Português](README.pt.md) | [ 中文](README.zh.md) | [ Français](README.fr.md) | [ Deutsch](README.de.md) | [ 日本語](README.ja.md) | [ 한국어](README.ko.md) | [ Русский](README.ru.md) | [ العربية](README.ar.md)
 
 Шаблон `Vite + React + TypeScript` для будущих проектов со следующим стеком:
 
