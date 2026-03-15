@@ -1,18 +1,28 @@
 # Clean Arch Vite Template
 
-Template de `Vite + React + TypeScript` preparado para futuros proyectos con:
+English: see this file.
+Español: see `README.es.md`.
+Português: see `README.pt.md`.
+中文: see `README.zh.md`.
+Français: see `README.fr.md`.
+Deutsch: see `README.de.md`.
+日本語: see `README.ja.md`.
+한국어: see `README.ko.md`.
+Русский: see `README.ru.md`.
+العربية: see `README.ar.md`.
+`Vite + React + TypeScript` template prepared for future projects with:
 
-- Clean Architecture y DDD como estructura base.
-- `TanStack Router`, `TanStack Query` y `TanStack Form`.
-- Validacion con `Zod` usando soporte directo de TanStack Form.
-- `ByteKit` para `EnvManager`, logging, storage y cliente HTTP.
-- `Tailwind CSS v4` y `shadcn/ui` para la capa visual.
-- `Zustand` para estado global liviano.
-- `i18next + react-i18next` para traducciones futuras.
-- `Vitest` para tests.
-- `Biome` para lint y format.
-- `Husky` para `pre-commit`.
-- React Compiler ya habilitado.
+- Clean Architecture and DDD as the base structure.
+- `TanStack Router`, `TanStack Query`, and `TanStack Form`.
+- Validation with `Zod` using direct TanStack Form support.
+- `ByteKit` for `EnvManager`, logging, storage, and HTTP client.
+- `Tailwind CSS v4` and `shadcn/ui` for the visual layer.
+- `Zustand` for lightweight global state.
+- `Intlayer` for type-safe, declarative i18n.
+- `Vitest` for testing.
+- `Biome` for linting and formatting.
+- `Husky` for `pre-commit`.
+- React Compiler already enabled.
 
 ## Stack
 
@@ -26,13 +36,14 @@ Template de `Vite + React + TypeScript` preparado para futuros proyectos con:
 - `tailwindcss`
 - `shadcn`
 - `zustand`
-- `i18next`
-- `react-i18next`
+- `intlayer`
+- `react-intlayer`
+- `vite-intlayer`
 - `vitest`
 - `@biomejs/biome`
 - `husky`
 
-## Estructura
+## Structure
 
 ```text
 src
@@ -62,23 +73,23 @@ src
    └─ utils
 ```
 
-## Reglas de diseño
+## Design Rules
 
-- `domain`: entidades y contratos estables del negocio.
-- `application`: casos de uso y puertos.
-- `infrastructure`: adapters concretos, repositorios, HTTP, storage.
-- `presentation`: rutas, componentes, hooks y formularios.
-- `shared`: cross-cutting concerns reutilizables entre modulos.
-- `components/ui`: componentes base de `shadcn/ui`.
-- `lib`: utilidades transversales de UI, por ejemplo `cn`.
-- Los tipos exportados viven en carpetas `types`; dentro de componentes solo quedan tipos estrictamente locales.
+- `domain`: stable business entities and contracts.
+- `application`: use cases and ports.
+- `infrastructure`: concrete adapters, repositories, HTTP, storage.
+- `presentation`: routes, components, hooks, and forms.
+- `shared`: cross-cutting concerns reused across modules.
+- `components/ui`: base `shadcn/ui` components.
+- `lib`: shared UI utilities, for example `cn`.
+- Exported types live in `types` folders; component files should only keep strictly local types.
 
 ## TanStack
 
-- `Router` se usa con router tipado y providers centrales en `src/app`.
-- `Query` encapsula lecturas y cache mediante `queryOptions`.
-- `Form` usa `validators.onChange: schema` con `Zod` directo.
-- No se usa `@tanstack/zod-form-adapter` porque ya no hace falta en la API actual.
+- `Router` is used with typed routing and centralized providers in `src/app`.
+- `Query` wraps reads and caching through `queryOptions`.
+- `Form` uses `validators.onChange: schema` with direct `Zod`.
+- `@tanstack/zod-form-adapter` is not used because the current API no longer needs it.
 
 ## ByteKit
 
@@ -89,16 +100,64 @@ src
 
 ## UI
 
-- `Tailwind CSS v4` se integra con `@tailwindcss/vite`.
-- `shadcn/ui` usa `components.json`, `src/components/ui` y `src/lib/utils.ts`.
-- La app de ejemplo ya usa `Button`, `Card`, `Badge`, `Input` y `Textarea`.
+- `Tailwind CSS v4` is integrated through `@tailwindcss/vite`.
+- `shadcn/ui` uses `components.json`, `src/components/ui`, and `src/lib/utils.ts`.
+- The sample app already uses `Button`, `Card`, `Badge`, `Input`, and `Textarea`.
 
-## State e i18n
+## State and i18n
 
-- `src/app/state/preferences-store.ts`: store persistido de Zustand para preferencias globales.
-- `src/shared/i18n/config.ts`: inicializacion de i18next.
-- `src/shared/i18n/resources`: recursos `es` y `en`.
-- `src/components/app/language-switcher.tsx`: selector de idioma listo para extender.
+- `src/app/state/preferences-store.ts`: persisted Zustand store for global preferences.
+- `intlayer.config.ts`: global configuration for supported locales.
+- `src/**/*.content.ts`: declarative dictionaries by feature/screen.
+- `src/app/providers/intlayer-provider.tsx`: bridge between Zustand and Intlayer.
+- `src/components/app/language-switcher.tsx`: language switcher connected to the global store.
+
+## AI Translation Engine with Intlayer
+
+Intlayer can connect to an AI provider to complete or suggest translations from its CLI, visual editor, and CMS. The configuration is declared in `intlayer.config.ts`.
+
+Example using `OpenAI`:
+
+```ts
+import { Locales, type IntlayerConfig } from 'intlayer';
+
+const config: IntlayerConfig = {
+  internationalization: {
+    locales: [Locales.SPANISH, Locales.ENGLISH],
+    defaultLocale: Locales.SPANISH,
+  },
+  ai: {
+    provider: 'openai',
+    model: 'gpt-4.1-mini',
+    apiKey: process.env.INTLAYER_OPENAI_API_KEY,
+    temperature: 0.2,
+    applicationContext:
+      'Frontend template with Clean Architecture, DDD, TanStack, and B2B SaaS product terminology.',
+  },
+};
+
+export default config;
+```
+
+Recommended steps:
+
+1. Define the `ai` block in `intlayer.config.ts`.
+2. Store the API key in local or CI environment variables, for example `INTLAYER_OPENAI_API_KEY`.
+3. Adjust `applicationContext` with your product domain so translations follow the project terminology.
+4. Run the Intlayer command to fill missing translations.
+
+CLI example:
+
+```bash
+pnpm exec intlayer fill
+```
+
+Notes:
+
+- `apiKey` should not be exposed to the client; `intlayer.config.ts` is evaluated on the Node side during tooling/build.
+- You can switch `provider` and `model` to other providers supported by Intlayer, such as `anthropic`, `mistral`, `deepseek`, `gemini`, or `llama`.
+- Generated translations should still be reviewed manually before being considered final.
+- Official reference: `https://intlayer.org/en-GB/doc/concept/configuration` and `https://intlayer.org/en-GB/doc/plugin/sync-json`.
 
 ## Scripts
 
@@ -113,18 +172,18 @@ pnpm lint
 pnpm preview
 ```
 
-## Variables de entorno
+## Environment Variables
 
-Tomar `.env.example` como base:
+Use `.env.example` as a base:
 
 ```bash
 VITE_APP_NAME=Clean Arch Vite Template
 VITE_API_BASE_URL=/api
 ```
 
-## Punto de partida recomendado
+## Recommended Starting Point
 
-1. Duplicar un modulo de ejemplo y renombrarlo al bounded context real.
-2. Reemplazar el repositorio browser/local por uno HTTP usando `ApiClient`.
-3. Agregar loaders o prefetching por ruta donde Query tenga sentido.
-4. Mantener los casos de uso fuera de componentes.
+1. Duplicate one of the sample modules and rename it to your real bounded context.
+2. Replace the browser/local repository with an HTTP implementation using `ApiClient`.
+3. Add route loaders or prefetching where Query makes sense.
+4. Keep use cases outside components.

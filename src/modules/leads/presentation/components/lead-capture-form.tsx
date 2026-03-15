@@ -1,9 +1,9 @@
 import { useCreateLead } from '@modules/leads/presentation/mutations/use-create-lead';
-import { leadSchema } from '@modules/leads/presentation/schemas/lead-schema';
+import { createLeadSchema } from '@modules/leads/presentation/schemas/create-lead-schema';
 import type { LeadFormValues } from '@modules/leads/presentation/types/lead-form-values';
 import { readFieldError } from '@shared/utils/read-field-error';
 import { useForm } from '@tanstack/react-form';
-import { useTranslation } from 'react-i18next';
+import { useIntlayer } from 'react-intlayer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -16,13 +16,13 @@ const defaultValues: LeadFormValues = {
 };
 
 export function LeadCaptureForm() {
-  const { t } = useTranslation();
+  const content = useIntlayer('lead-capture-form');
   const createLead = useCreateLead();
 
   const form = useForm({
     defaultValues,
     validators: {
-      onChange: leadSchema,
+      onChange: createLeadSchema(content),
     },
     onSubmit: async ({ value, formApi }) => {
       await createLead.mutateAsync(value);
@@ -45,14 +45,14 @@ export function LeadCaptureForm() {
 
             return (
               <label className="grid gap-2" htmlFor={field.name}>
-                <span className="text-sm font-medium">{t('leads.form.company')}</span>
+                <span className="text-sm font-medium">{content.company}</span>
                 <Input
                   id={field.name}
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(event) => field.handleChange(event.target.value)}
-                  placeholder={t('leads.form.companyPlaceholder')}
+                  placeholder={content.companyPlaceholder}
                 />
                 {error ? <small className="text-destructive text-sm">{error}</small> : null}
               </label>
@@ -66,7 +66,7 @@ export function LeadCaptureForm() {
 
             return (
               <label className="grid gap-2" htmlFor={field.name}>
-                <span className="text-sm font-medium">{t('leads.form.email')}</span>
+                <span className="text-sm font-medium">{content.email}</span>
                 <Input
                   id={field.name}
                   name={field.name}
@@ -74,7 +74,7 @@ export function LeadCaptureForm() {
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(event) => field.handleChange(event.target.value)}
-                  placeholder={t('leads.form.emailPlaceholder')}
+                  placeholder={content.emailPlaceholder}
                 />
                 {error ? <small className="text-destructive text-sm">{error}</small> : null}
               </label>
@@ -89,7 +89,7 @@ export function LeadCaptureForm() {
 
           return (
             <label className="grid gap-2" htmlFor={field.name}>
-              <span className="text-sm font-medium">{t('leads.form.expectedUsers')}</span>
+              <span className="text-sm font-medium">{content.expectedUsers}</span>
               <Input
                 id={field.name}
                 name={field.name}
@@ -112,7 +112,7 @@ export function LeadCaptureForm() {
 
           return (
             <label className="grid gap-2" htmlFor={field.name}>
-              <span className="text-sm font-medium">{t('leads.form.challenge')}</span>
+              <span className="text-sm font-medium">{content.challenge}</span>
               <Textarea
                 id={field.name}
                 name={field.name}
@@ -120,7 +120,7 @@ export function LeadCaptureForm() {
                 value={field.state.value}
                 onBlur={field.handleBlur}
                 onChange={(event) => field.handleChange(event.target.value)}
-                placeholder={t('leads.form.challengePlaceholder')}
+                placeholder={content.challengePlaceholder}
               />
               {error ? <small className="text-destructive text-sm">{error}</small> : null}
             </label>
@@ -130,10 +130,10 @@ export function LeadCaptureForm() {
 
       <div className="flex flex-wrap items-center gap-3">
         <Button disabled={createLead.isPending} type="submit">
-          {createLead.isPending ? t('leads.form.saving') : t('leads.form.submit')}
+          {createLead.isPending ? content.saving : content.submit}
         </Button>
         {createLead.isSuccess ? (
-          <p className="text-muted-foreground text-sm">{t('leads.form.success')}</p>
+          <p className="text-muted-foreground text-sm">{content.success}</p>
         ) : null}
       </div>
     </form>

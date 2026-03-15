@@ -1,10 +1,10 @@
 import { useAppPreferencesStore } from '@app/state/preferences-store';
 import { type AppLocale, appLocales } from '@app/state/types/app-locale';
-import { useTranslation } from 'react-i18next';
+import { useIntlayer } from 'react-intlayer';
 import { Button } from '@/components/ui/button';
 
 export function LanguageSwitcher() {
-  const { t } = useTranslation();
+  const content = useIntlayer('language-switcher');
   const locale = useAppPreferencesStore((state) => state.locale);
   const setLocale = useAppPreferencesStore((state) => state.setLocale);
 
@@ -15,7 +15,7 @@ export function LanguageSwitcher() {
   return (
     <div className="glass-card flex items-center gap-1 rounded-full px-2 py-2">
       <span className="text-muted-foreground px-2 text-xs font-medium uppercase">
-        {t('language.label')}
+        {content.label}
       </span>
       {appLocales.map((option) => (
         <Button
@@ -26,7 +26,7 @@ export function LanguageSwitcher() {
           type="button"
           variant={locale === option ? 'default' : 'ghost'}
         >
-          {t(`language.${option}`)}
+          {content[option]}
         </Button>
       ))}
     </div>

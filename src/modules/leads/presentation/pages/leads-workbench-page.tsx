@@ -3,13 +3,13 @@ import { leadsQuery } from '@modules/leads/presentation/queries/leads-query';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import { ChevronLeft, DatabaseZap, PencilLine } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { useIntlayer } from 'react-intlayer';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function LeadsWorkbenchPage() {
-  const { t } = useTranslation();
+  const content = useIntlayer('leads-workbench-page');
   const { data: leads = [] } = useQuery(leadsQuery);
 
   return (
@@ -18,20 +18,20 @@ export function LeadsWorkbenchPage() {
         <div className="grid gap-6 px-6 py-8 md:px-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="space-y-5">
             <Badge className="w-fit" variant="outline">
-              {t('leads.badge')}
+              {content.badge}
             </Badge>
             <div className="space-y-4">
               <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance md:text-5xl">
-                {t('leads.title')}
+                {content.title}
               </h1>
               <p className="text-muted-foreground max-w-2xl text-base leading-7">
-                {t('leads.description')}
+                {content.description}
               </p>
             </div>
             <Button asChild size="lg" variant="outline">
               <Link to="/">
                 <ChevronLeft />
-                {t('leads.back')}
+                {content.back}
               </Link>
             </Button>
           </div>
@@ -42,8 +42,8 @@ export function LeadsWorkbenchPage() {
                 <div className="bg-primary/10 text-primary flex size-10 items-center justify-center rounded-full">
                   <PencilLine className="size-5" />
                 </div>
-                <CardTitle>{t('leads.formFeatureTitle')}</CardTitle>
-                <CardDescription>{t('leads.formFeatureDescription')}</CardDescription>
+                <CardTitle>{content.formFeatureTitle}</CardTitle>
+                <CardDescription>{content.formFeatureDescription}</CardDescription>
               </CardHeader>
             </Card>
             <Card className="border-border/70 bg-background/75 py-0 shadow-none">
@@ -51,8 +51,8 @@ export function LeadsWorkbenchPage() {
                 <div className="bg-accent/25 text-accent-foreground flex size-10 items-center justify-center rounded-full">
                   <DatabaseZap className="size-5" />
                 </div>
-                <CardTitle>{t('leads.queryFeatureTitle')}</CardTitle>
-                <CardDescription>{t('leads.queryFeatureDescription')}</CardDescription>
+                <CardTitle>{content.queryFeatureTitle}</CardTitle>
+                <CardDescription>{content.queryFeatureDescription}</CardDescription>
               </CardHeader>
             </Card>
           </div>
@@ -62,8 +62,8 @@ export function LeadsWorkbenchPage() {
       <section className="section-grid">
         <Card className="glass-card py-0">
           <CardHeader className="pt-6">
-            <CardDescription>{t('leads.formEyebrow')}</CardDescription>
-            <CardTitle>{t('leads.formTitle')}</CardTitle>
+            <CardDescription>{content.formEyebrow}</CardDescription>
+            <CardTitle>{content.formTitle}</CardTitle>
           </CardHeader>
           <CardContent className="pb-6">
             <LeadCaptureForm />
@@ -72,13 +72,13 @@ export function LeadsWorkbenchPage() {
 
         <Card className="glass-card py-0">
           <CardHeader className="pt-6">
-            <CardDescription>{t('leads.queryEyebrow')}</CardDescription>
-            <CardTitle>{t('leads.queryTitle')}</CardTitle>
+            <CardDescription>{content.queryEyebrow}</CardDescription>
+            <CardTitle>{content.queryTitle}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4 pb-6">
             {leads.length === 0 ? (
               <div className="text-muted-foreground rounded-2xl border border-dashed px-4 py-10 text-center text-sm">
-                {t('leads.emptyState')}
+                {content.emptyState}
               </div>
             ) : (
               leads.map((lead) => (
@@ -90,7 +90,7 @@ export function LeadsWorkbenchPage() {
                         <CardDescription>{lead.contactEmail}</CardDescription>
                       </div>
                       <Badge variant="secondary">
-                        {lead.expectedUsers} {t('leads.form.usersSuffix')}
+                        {lead.expectedUsers} {content.usersSuffix}
                       </Badge>
                     </div>
                   </CardHeader>
