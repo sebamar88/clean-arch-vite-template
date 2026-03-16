@@ -6,14 +6,14 @@ import babel from '@rolldown/plugin-babel';
 import tailwindcss from '@tailwindcss/vite';
 import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import { intlayerPlugin } from 'vite-intlayer';
+import { intlayer } from 'vite-intlayer';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
-    intlayerPlugin(),
+    intlayer(),
     babel({ presets: [reactCompilerPreset()] }),
   ],
   resolve: {

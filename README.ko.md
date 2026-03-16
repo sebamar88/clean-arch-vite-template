@@ -123,6 +123,12 @@ Intlayer 는 CLI, 비주얼 에디터, CMS 에서 번역을 자동 완성하거�
 import { Locales, type IntlayerConfig } from 'intlayer';
 
 const config: IntlayerConfig = {
+  dictionary: {
+    importMode: 'dynamic',
+  },
+  compiler: {
+    output: ({ fileName }) => `./${fileName}.content.ts`,
+  },
   internationalization: {
     locales: [Locales.SPANISH, Locales.ENGLISH],
     defaultLocale: Locales.SPANISH,
