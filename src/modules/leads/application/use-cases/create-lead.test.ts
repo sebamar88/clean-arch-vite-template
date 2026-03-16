@@ -3,10 +3,34 @@ import { ListLeads } from '@modules/leads/application/use-cases/list-leads';
 import { BrowserLeadRepository } from '@modules/leads/infrastructure/repositories/browser-lead-repository';
 import { describe, expect, it } from 'vitest';
 
+function createMemoryStorage(): Storage {
+  const store = new Map<string, string>();
+
+  return {
+    get length() {
+      return store.size;
+    },
+    clear() {
+      store.clear();
+    },
+    getItem(key) {
+      return store.get(key) ?? null;
+    },
+    key(index) {
+      return Array.from(store.keys())[index] ?? null;
+    },
+    removeItem(key) {
+      store.delete(key);
+    },
+    setItem(key, value) {
+      store.set(key, value);
+    },
+  };
+}
+
 describe('CreateLead', () => {
   it('stores a lead through the repository contract', async () => {
-    const storage = window.localStorage;
-    storage.clear();
+    const storage = createMemoryStorage();
 
     const repository = new BrowserLeadRepository(storage);
     const createLead = new CreateLead(repository);
